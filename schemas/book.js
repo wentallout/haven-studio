@@ -1,8 +1,8 @@
-import {defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity';
 
 export default defineType({
-  name: 'post',
-  title: 'Post',
+  name: 'book',
+  title: 'Book',
   type: 'document',
   fields: [
     defineField({
@@ -20,19 +20,20 @@ export default defineType({
         maxLength: 96,
       },
     }),
+
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-      rows: 4,
-    }),
-    defineField({
-      name: 'mainImage',
-      title: 'Main image',
+      name: 'bookCoverImage',
+      title: 'Book Cover Image',
       type: 'image',
       options: {
+        metadata: ['palette'],
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'downloadLink',
+      title: 'Download Link',
+      type: 'url',
     }),
     defineField({
       name: 'body',
@@ -41,9 +42,13 @@ export default defineType({
     }),
 
     defineField({
-      name: 'tag',
-      title: 'Tag',
-      type: 'blockContent',
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        layout: 'tags',
+      },
     }),
   ],
 
@@ -54,8 +59,8 @@ export default defineType({
       media: 'mainImage',
     },
     prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
+      const {author} = selection;
+      return {...selection, subtitle: author && `by ${author}`};
     },
   },
-})
+});
